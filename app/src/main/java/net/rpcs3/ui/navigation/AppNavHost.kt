@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
@@ -57,6 +60,7 @@ import net.rpcs3.ui.games.GamesScreen
 import net.rpcs3.ui.settings.AdvancedSettingsScreen
 import net.rpcs3.ui.settings.SettingsScreen
 import org.json.JSONObject
+import net.rpcs3.ui.drivers.GpuDriversScreen
 
 @Preview
 @Composable
@@ -136,7 +140,15 @@ fun AppNavHost() {
                 navigateTo = { navController.navigate(it) },
             )
         }
-
+        
+        composable(
+            route = "drivers"
+        ) {
+            GpuDriversScreen(
+                navigateBack = navController::navigateUp
+            )
+        }
+        
         unwrapSetting(settings.value)
     }
 }
@@ -249,6 +261,7 @@ fun GamesDestination(
         }
     ) {
         Scaffold(
+            modifier = Modifier.windowInsetsPadding(WindowInsets.navigationBars),
             topBar = {
                 CenterAlignedTopAppBar(
                     colors = TopAppBarDefaults.topAppBarColors(
