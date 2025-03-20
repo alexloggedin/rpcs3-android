@@ -5,19 +5,19 @@ import android.view.InputDevice
 import android.view.KeyEvent
 import android.view.MotionEvent
 
-class ControllerHandler {
+class ControllerInterface {
 
     fun captureMotionEvent(event: MotionEvent): Boolean {
         if (isGamepad(event.device)) {
-            Log.d("ControllerHandler", event.toString())
+            Log.d("ControllerInterface", event.toString())
             return true
         }
         return false
     }
 
     fun captureKeyEvent(event: KeyEvent): Boolean {
-        if (isGamepad(event.device)) {
-            Log.d("ControllerHandler", event.toString())
+        if (isGamepad(event.device) && event.keyCode != KeyEvent.KEYCODE_BACK) {
+            Log.d("ControllerInterface", event.toString())
             return true
         }
         return false
@@ -36,17 +36,17 @@ class ControllerHandler {
             if (device != null) {
 
                 if (!device.isVirtual) {
-                    Log.d("ControllerHandler", "Device Dump: $device")
+                    Log.d("ControllerInterface", "Device Dump: $device")
                 }
 
             } else {
-                Log.d("ControllerHandler", "Failed to retrieve device with ID: $deviceId")
+                Log.d("ControllerInterface", "Failed to retrieve device with ID: $deviceId")
             }
         }
     }
 
     fun isGamepad(device: InputDevice): Boolean{
-        return device.sources and InputDevice.SOURCE_GAMEPAD == InputDevice.SOURCE_GAMEPAD ||
-                device.sources and InputDevice.SOURCE_JOYSTICK == InputDevice.SOURCE_JOYSTICK
+        return device.sources == InputDevice.SOURCE_GAMEPAD ||
+                device.sources == InputDevice.SOURCE_JOYSTICK
     }
 }

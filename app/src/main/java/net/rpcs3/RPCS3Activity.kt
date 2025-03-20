@@ -6,14 +6,12 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.view.isInvisible
-import net.rpcs3.R
 import net.rpcs3.databinding.ActivityRpcs3Binding
-import net.rpcs3.ControllerHandler
 
 class RPCS3Activity : Activity() {
     private lateinit var binding: ActivityRpcs3Binding
     private lateinit var unregisterUsbEventListener: () -> Unit
-    private lateinit var controllerHandler: ControllerHandler
+    private lateinit var controllerInterface: ControllerInterface
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +19,8 @@ class RPCS3Activity : Activity() {
         setContentView(binding.root)
 
         unregisterUsbEventListener = listenUsbEvents(this)
-        controllerHandler.printConnectedDevices()
+        controllerInterface = ControllerInterface()
+        controllerInterface.printConnectedDevices()
 
         enableFullScreenImmersive()
 
@@ -55,14 +54,14 @@ class RPCS3Activity : Activity() {
     }
 
     override fun dispatchGenericMotionEvent(ev: MotionEvent): Boolean {
-        if (controllerHandler.captureMotionEvent(ev)) {
+        if (controllerInterface.captureMotionEvent(ev)) {
             return true
         }
         return super.dispatchGenericMotionEvent(ev)
     }
 
     override fun dispatchKeyEvent(ev: KeyEvent): Boolean {
-        if (controllerHandler.captureKeyEvent(ev)) {
+        if (controllerInterface.captureKeyEvent(ev)) {
             return true
         }
         return super.dispatchKeyEvent(ev)

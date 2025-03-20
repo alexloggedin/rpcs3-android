@@ -5,10 +5,11 @@
 #ifndef RPCS3_CONTROLLERINTERFACE_H
 #define RPCS3_CONTROLLERINTERFACE_H
 
+#include "Emu/Io/pad_types.h"
+#include <memory>
+#include <string>
 
-class controllerinterface {
-
-};
+bool initVirtualPad(const std::shared_ptr<Pad> &pad)
 
 
 #endif //RPCS3_CONTROLLERINTERFACE_H
